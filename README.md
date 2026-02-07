@@ -1,16 +1,27 @@
-# movies
+# Movies App 🎬
 
-A new Flutter project.
+**Movies App** is a modern Flutter application that lets users browse and discover top-rated movies using the **TMDb API**. The app features a clean, responsive UI with **ListView** and **CarouselSlider** to showcase movie posters and details.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## Features ✨
 
-A few resources to get you started if this is your first Flutter project:
+- Browse top-rated movies with posters and details.
+- Horizontal scrollable **ListView** of movies.
+- **CarouselSlider** for featured movies.
+- Search bar UI for movie search (UI ready).
+- Clean and modern Flutter design.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots 📱
+
+![Movies App Screenshot](assets/screenshot-1.png)
+
+---
+
+## Installation ⚙️
+
+1. Clone the repository:
+```bash
+git clone https://github.com/MohamedMahmoudLashin/movies_app.git
