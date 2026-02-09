@@ -16,14 +16,22 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-
   TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.backGround,
-      appBar: CustomAppBar(title: 'Search',sufIcon:Icon(Icons.info_outline_rounded,color: AppColor.appBarColor, size: 25,),),
+      appBar: CustomAppBar(
+        toolTipMessage: 'Search about what do you want',
+        angle: 3.1,
+        title: 'Search',
+        sufIcon: Icon(
+          Icons.info_outline_rounded,
+          color: AppColor.appBarColor,
+          size: 25,
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
@@ -37,19 +45,18 @@ class _SearchScreenState extends State<SearchScreen> {
                 }
               },
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 20),
             Expanded(
-              child: BlocBuilder<SearchMovieCubit,SearchMovieState>(
+              child: BlocBuilder<SearchMovieCubit, SearchMovieState>(
                 builder: (context, state) {
                   if (state is SearchMovieLoading) {
-                    return Center(child: CircularProgressIndicator(),);
-                  }
-                  else if (state is SearchMovieSuccess) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (state is SearchMovieSuccess) {
                     final searchMovie = state.searchMovie.results;
                     if (searchMovie.isEmpty) {
                       return Center(
                         child: Text(
-                          '"assets/search.png"',
+                          'assets/search.png',
                           style: TextStyle(
                             fontSize: 30,
                             color: AppColor.textWhite,
@@ -57,8 +64,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                         ),
                       );
-                    }
-                    else {
+                    } else {
                       return ListView.builder(
                         itemCount: searchMovie.length,
                         itemBuilder: (context, index) {
@@ -70,59 +76,77 @@ class _SearchScreenState extends State<SearchScreen> {
                               width: double.infinity,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(26),
-                                child:Row(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     Column(
                                       children: [
                                         GestureDetector(
                                           child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(26),
+                                            borderRadius: BorderRadius.circular(
+                                              26,
+                                            ),
                                             child: Image.network(
                                               searchS.posterPath != null
                                                   ? "https://image.tmdb.org/t/p/w500${searchS.posterPath}"
-                                                  :"https://img.icons8.com/?size=100&id=6i8IfGyeoebS&format=png&color=000000",
+                                                  : "https://img.icons8.com/?size=100&id=6i8IfGyeoebS&format=png&color=000000",
                                               width: 120,
                                               height: 170,
                                               fit: BoxFit.cover,
                                             ),
-                                          ),onTap: (){
+                                          ),
+                                          onTap: () {
                                             Navigator.of(context).push(
-                                              MaterialPageRoute(builder: (context)=>DetailsScreen())
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailsScreen(),
+                                              ),
                                             );
-                                        },
+                                          },
                                         ),
                                       ],
                                     ),
-                                    SizedBox(width: 10,),
+                                    SizedBox(width: 10),
                                     SizedBox(
-                                        height: 170,
-                                        width: 200,
-
-                                        child: CustomDetailsCoulmn( movieName: searchS.title,movieRate:searchS.voteAverage, movieType: searchS.title, movieYear:searchS.popularity.toInt(), movieTime: searchS.video.toString()))
+                                      height: 170,
+                                      width: 200,
+                                      child: CustomDetailsCoulmn(
+                                        movieName: searchS.title,
+                                        movieRate: searchS.voteAverage,
+                                        movieType: searchS.title,
+                                        movieYear: searchS.releaseDate,
+                                        movieTime: searchS.video.toString(),
+                                      ),
+                                    ),
                                   ],
-                                )
+                                ),
                               ),
                             ),
                           );
                         },
                       );
                     }
-                  }
-                  else if (state is SearchMovieError) {
+                  } else if (state is SearchMovieError) {
                     return Center(child: Text('Error : ${state.message}'));
-                  }
-                  else {
+                  } else {
                     return Center(
-                      child:Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset("assets/search.png"),
-                          SizedBox(height: 20,),
-                          Text('Find your movie by Type title,\n categories, years, etc ',textAlign:TextAlign.center,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: AppColor.iconHint,letterSpacing:
-                          0.12),)
+                          SizedBox(height: 20),
+                          Text(
+                            'Find your movie by Type title,\n categories, years, etc ',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: AppColor.iconHint,
+                              letterSpacing: 0.12,
+                            ),
+                          ),
                         ],
-                      )
+                      ),
                     );
                   }
                 },

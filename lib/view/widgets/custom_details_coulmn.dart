@@ -7,7 +7,7 @@ class CustomDetailsCoulmn extends StatelessWidget {
   final String movieName;
   final double movieRate;
   final String movieType;
-  final int movieYear;
+  final String movieYear;
   final String movieTime;
 
 
@@ -36,7 +36,7 @@ class CustomDetailsCoulmn extends StatelessWidget {
           Row(children: [
             Icon(Icons.calendar_today_outlined,color: AppColor.textWhite,size: 15,),
             SizedBox(width: 8,),
-            Text('$movieYear',style: TextStyle(fontSize: 12 ,fontWeight:FontWeight.w400 ,color: AppColor.textWhite ),),
+            Text(movieYear,style: TextStyle(fontSize: 12 ,fontWeight:FontWeight.w400 ,color: AppColor.textWhite ),),
           ],),
           Row(children: [
             Icon(Icons.watch_later_outlined,color: AppColor.textWhite,size: 15,),

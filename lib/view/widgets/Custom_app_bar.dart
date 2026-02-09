@@ -1,14 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:movies/core/app_color.dart';
-import 'package:movies/view/screens/home_screen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key, required this.title,required this.sufIcon});
+  const CustomAppBar({super.key, required this.title,required this.sufIcon,required this.angle, required this.toolTipMessage});
 
   final String title;
   final Icon sufIcon;
-
+  final double angle;
+  final String toolTipMessage;
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -20,7 +20,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         onPressed: () {
           Navigator.of(
             context,
-          ).push(MaterialPageRoute(builder: (context) => HomeScreen()));
+          ).pop();
         },
         icon: Icon(Icons.arrow_back_ios, color: AppColor.appBarColor),
       ),
@@ -36,9 +36,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         SizedBox(
           width: 90,
           child: Tooltip(
-            message: 'Search about what do you want',
+            message: toolTipMessage,
             child: Transform.rotate(
-              angle: 3.1,
+              angle: angle,
               child:sufIcon
             ),
           ),

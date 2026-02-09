@@ -26,7 +26,7 @@ class CustomTextForm extends StatelessWidget {
             fillColor: AppColor.textField,
             suffixIcon: Transform.rotate(
               angle: 1.75,
-              child: IconButton(icon:Icon(Icons.search, color: AppColor.iconHint) ,onPressed:(){},),
+              child: IconButton(icon:Icon(Icons.search, color: AppColor.iconHint,size: 35,) ,onPressed:(){},),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(25),
