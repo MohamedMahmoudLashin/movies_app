@@ -15,10 +15,16 @@ class MovieNameTitle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top:20,bottom: 20),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 160),
-            child: Text(movieName,softWrap: true,style: TextStyle(fontSize: 18,fontWeight:FontWeight.w600 ,color: AppColor.textWhite),),
+            padding: const EdgeInsets.only(left: 165),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(movieName,softWrap: true,style: TextStyle(fontSize: 18,fontWeight:FontWeight.w600 ,color: AppColor.textWhite),),
+              ],
+            ),
           ),
           SizedBox(height: 50,),
           Row(

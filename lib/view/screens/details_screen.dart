@@ -4,7 +4,7 @@ import 'package:movies/core/app_color.dart';
 import 'package:movies/view/widgets/Custom_app_bar.dart';
 import 'package:movies/view/widgets/movie_name_title.dart';
 import 'package:movies/view/widgets/text_details.dart';
-import 'package:movies/view_model/search_movie_cubit.dart';
+import 'package:movies/view_model/search_movie/search_movie_cubit.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key, this.movie});
@@ -26,15 +26,6 @@ class DetailsScreen extends StatelessWidget {
         ),
       ),
       body:
-      // BlocBuilder<SearchMovieCubit, SearchMovieState>(
-      //   builder: (context, state) {
-      //     if (state is SearchMovieLoading) {
-      //       return Center(child: CircularProgressIndicator());
-      //     } else if (state is SearchMovieSuccess) {
-            // final searchMovie = state.searchMovie.results;
-            // int index = 0;
-            // final searchS = searchMovie[index];
-            //return
       SingleChildScrollView(
               child: Column(
                 children: [
@@ -47,7 +38,7 @@ class DetailsScreen extends StatelessWidget {
                         child: Image.network(
                           "https://image.tmdb.org/t/p/w500${searchS.posterPath}",
                           width: double.infinity,
-                          height: 250,
+                          height: 300,
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -115,7 +106,7 @@ class DetailsScreen extends StatelessWidget {
                         ]),
                         SizedBox(
                           width: double.infinity,
-                          height: 250,
+                          height: 400,
                           child: TabBarView(children: [
                             TextDetails(title: searchS.overview),
                             TextDetails(title: searchS.overview),
@@ -128,13 +119,5 @@ class DetailsScreen extends StatelessWidget {
                 ],
               ),
             ));
-    //       } else if (state is SearchMovieError) {
-    //         return Center(child: Text('No Internet'));
-    //       } else {
-    //         return Center(child: Text('data'));
-    //       }
-    //      },
-    //   // ),
-    // );
   }
 }

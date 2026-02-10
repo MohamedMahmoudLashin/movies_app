@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movies/core/app_color.dart';
+import 'package:movies/view/screens/watch_screen.dart';
+import '../screens/home_screen.dart';
+import '../screens/search_screen.dart';
 
 class CustomNavigatorBar extends StatefulWidget {
   const CustomNavigatorBar({super.key});
@@ -9,6 +12,12 @@ class CustomNavigatorBar extends StatefulWidget {
 }
 
 class _CustomNavigatorBarState extends State<CustomNavigatorBar> {
+
+  List<Widget>screens= [
+    HomeScreen(),
+    SearchScreen(),
+    WatchScreen()
+  ];
   int _selectedIndex = 0;
 
   @override
@@ -33,6 +42,9 @@ class _CustomNavigatorBarState extends State<CustomNavigatorBar> {
         shadowColor: Colors.blue,
         onDestinationSelected: (int index) {
           setState(() {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context)=>screens.elementAt(index))
+            );
             _selectedIndex = index;
           });
         },

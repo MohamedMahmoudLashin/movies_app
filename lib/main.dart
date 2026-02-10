@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movies/view/screens/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies/view/screens/search_screen.dart';
-import 'package:movies/view_model/top_rated_cubit.dart';
-import 'view_model/search_movie_cubit.dart';
+import 'package:movies/view_model/nowplaying/now_playing_cubit.dart';
+import 'package:movies/view_model/popular/popular_cubit.dart';
+import 'package:movies/view_model/toprated/top_rated_cubit.dart';
+import 'package:movies/view_model/upcoming/upcoming_cubit.dart';
+import 'view_model/search_movie/search_movie_cubit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,6 +25,12 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => SearchMovieCubit(),
         ),
+        BlocProvider(
+            create: (context) => UpcomingCubit()),
+        BlocProvider(
+            create:(context) => PopularCubit()),
+        BlocProvider(
+            create:(context) => NowPlayingCubit())
       ],
       child: MaterialApp(title: 'Movies', home: HomeScreen()),
     );

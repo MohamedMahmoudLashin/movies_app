@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
@@ -27,6 +29,5 @@ class TopRatedCubit extends Cubit<TopRatedState> {
     } catch (e) {
       emit(TopRatedError(e.toString()));
     }
-    // return TopRatedMovieResponse.fromJson(res.data);
   }
 }

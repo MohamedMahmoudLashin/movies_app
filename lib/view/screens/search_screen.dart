@@ -6,7 +6,7 @@ import 'package:movies/view/widgets/Custom_app_bar.dart';
 import 'package:movies/view/widgets/custom_Navigator_bar.dart';
 import 'package:movies/view/widgets/custom_details_coulmn.dart';
 import 'package:movies/view/widgets/custom_text_form.dart';
-import 'package:movies/view_model/search_movie_cubit.dart';
+import 'package:movies/view_model/search_movie/search_movie_cubit.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
