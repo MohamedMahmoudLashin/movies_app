@@ -99,7 +99,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                             Navigator.of(context).push(
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    DetailsScreen(),
+                                                    DetailsScreen(movie:searchS),
                                               ),
                                             );
                                           },

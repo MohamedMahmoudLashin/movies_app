@@ -19,7 +19,7 @@ class CustomDetailsCoulmn extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(movieName,maxLines:1,overflow:TextOverflow.ellipsis,style: TextStyle(fontSize: 16 ,fontWeight:FontWeight.w600 ,color: AppColor.textWhite ),),
+          Text(movieName,softWrap:true,style: TextStyle(fontSize: 16 ,fontWeight:FontWeight.w600 ,color: AppColor.textWhite ),),
           SizedBox(height: 14,),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -31,7 +31,7 @@ class CustomDetailsCoulmn extends StatelessWidget {
           Row(children: [
             Icon(Icons.call_to_action_outlined,color: AppColor.textWhite,size: 15,),
             SizedBox(width: 8,),
-            Text(movieType.toString(),style: TextStyle(fontSize: 12 ,fontWeight:FontWeight.w400 ,color: AppColor.textWhite ),),
+            Expanded(child: Text(movieType.toString(),softWrap:true,style: TextStyle(fontSize: 12 ,fontWeight:FontWeight.w400 ,color: AppColor.textWhite, ),)),
           ],),
           Row(children: [
             Icon(Icons.calendar_today_outlined,color: AppColor.textWhite,size: 15,),

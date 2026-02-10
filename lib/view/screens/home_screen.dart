@@ -6,6 +6,7 @@ import 'package:movies/view/widgets/custom_text_button.dart';
 import 'package:movies/view/widgets/custom_text_form.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/view/widgets/text_details.dart';
 import 'package:movies/view_model/search_movie_cubit.dart';
 import 'package:movies/view_model/top_rated_cubit.dart';
 
@@ -62,60 +63,145 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                     ),
-                    SizedBox(height: 20),
-                    SizedBox(
-                      height: 280,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
+                    SizedBox(height: 34),
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow:[BoxShadow(color:AppColor.iconHint,blurRadius:40,spreadRadius: -14 )]
+                      ),
+                      child: CarouselSlider.builder(
                         itemCount: topRatedMovie.length,
-                        itemBuilder: (context, index) {
+                        itemBuilder: (context, index, realIndex) {
                           final movie = topRatedMovie[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 20),
+                          return SizedBox(
+                            width: 300,
+                            height: 250,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(26),
                               child: Image.network(
                                 "https://image.tmdb.org/t/p/w500${movie.posterPath}",
                                 fit: BoxFit.cover,
-                                width: 200,
                               ),
                             ),
                           );
                         },
+                        options: CarouselOptions(
+                          autoPlayAnimationDuration: Duration(seconds: 2),
+                          autoPlay: true,
+                          viewportFraction: 0.4,
+                          enlargeCenterPage: true,
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                        ),
                       ),
                     ),
-                    SizedBox(height: 64),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                      CustomTextButton(title: 'Now Playing', onPressed: (){}),
-                      CustomTextButton(title: 'Upcoming', onPressed: (){}),
-                      CustomTextButton(title: 'Top rated', onPressed: (){}),
-                      CustomTextButton(title: 'Popular', onPressed: (){},),
-                    ],),
                     SizedBox(height: 20,),
-                    CarouselSlider.builder(
-                      itemCount: topRatedMovie.length,
-                      itemBuilder: (context, index, realIndex) {
-                        final movie = topRatedMovie[index];
-                        return SizedBox(
-                          width: 300,
-                          height: 250,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(26),
-                            child: Image.network(
-                              "https://image.tmdb.org/t/p/w500${movie.posterPath}",
-                              fit: BoxFit.cover,
+                    DefaultTabController(
+                      length: 4,
+                      child: Column(
+                        children: [
+                          TabBar(
+                              labelPadding: EdgeInsets.symmetric(horizontal: 15),
+                              overlayColor: MaterialStateProperty.all(Colors.transparent),
+                              isScrollable: true,
+                              dividerColor: AppColor.backGround,
+                              unselectedLabelColor: AppColor.iconHint,
+                              indicatorWeight: 5,
+                              labelColor: AppColor.textWhite,
+                              indicatorColor: AppColor.detail,
+                              tabAlignment: TabAlignment.start,
+                              tabs: [
+                                Tab(text: 'Now playing',),
+                                Tab(text: 'Upcoming',),
+                                Tab(text: 'Top rated',),
+                                Tab(text: 'Popular',)
+                              ]),
+                          SizedBox(
+                            width: double.infinity,
+                            height: double.maxFinite,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical:15),
+                              child: TabBarView(children: [
+                                GridView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,crossAxisSpacing: 15,mainAxisSpacing: 10,childAspectRatio: .7),
+                                    itemCount: topRatedMovie.length,
+                                    itemBuilder: (context,i){
+                                      final movie =topRatedMovie[i];
+                                     return SizedBox(
+                                       width: 250,
+                                       height: 300,
+                                       child: ClipRRect(
+                                         borderRadius: BorderRadius.circular(15),
+                                         child: Image.network(
+                                           "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+                                           fit: BoxFit.fill,
+                                         ),
+                                       ),
+                                     );
+                                    }),
+
+                                GridView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,crossAxisSpacing: 15,mainAxisSpacing: 10,childAspectRatio: .7),
+                                    itemCount: topRatedMovie.length,
+                                    itemBuilder: (context,i){
+                                      final movie =topRatedMovie[i];
+                                      return SizedBox(
+                                        width: 250,
+                                        height: 300,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(15),
+                                          child: Image.network(
+                                            "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      );
+                                    }),
+
+                                GridView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,crossAxisSpacing: 15,mainAxisSpacing: 10,childAspectRatio: .7),
+                                    itemCount: topRatedMovie.length,
+                                    itemBuilder: (context,i){
+                                      final movie =topRatedMovie[i];
+                                      return SizedBox(
+                                        width: 250,
+                                        height: 300,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(15),
+                                          child: Image.network(
+                                            "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                GridView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,crossAxisSpacing: 15,mainAxisSpacing: 10,childAspectRatio: .7),
+                                    itemCount: topRatedMovie.length,
+                                    itemBuilder: (context,i){
+                                      final movie =topRatedMovie[i];
+                                      return SizedBox(
+                                        width: 250,
+                                        height: 300,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(15),
+                                          child: Image.network(
+                                            "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                              ]),
                             ),
-                          ),
-                        );
-                      },
-                      options: CarouselOptions(
-                        autoPlayAnimationDuration: Duration(seconds: 2),
-                        autoPlay: true,
-                        viewportFraction: 0.4,
-                        enlargeCenterPage: true,
-                        autoPlayCurve: Curves.fastOutSlowIn,
+                          )
+                        ],
                       ),
                     ),
                   ],
@@ -124,8 +210,11 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           } else if (state is TopRatedError) {
             return Center(child: Text('Error: ${state.message}'));
-          } else {
-            return Container();
+          } 
+          else {
+            return Scaffold(
+              body: SafeArea(child:Center(child: Text("Oops There is An Error"),) ),
+            );
           }
         },
       ),

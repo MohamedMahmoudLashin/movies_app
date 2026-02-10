@@ -7,10 +7,12 @@ import 'package:movies/view/widgets/text_details.dart';
 import 'package:movies/view_model/search_movie_cubit.dart';
 
 class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({super.key});
+  const DetailsScreen({super.key, this.movie});
+  final dynamic movie;
 
   @override
   Widget build(BuildContext context) {
+    final searchS = movie;
     return Scaffold(
       backgroundColor: AppColor.backGround,
       appBar: CustomAppBar(
@@ -23,15 +25,17 @@ class DetailsScreen extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-      body: BlocBuilder<SearchMovieCubit, SearchMovieState>(
-        builder: (context, state) {
-          if (state is SearchMovieLoading) {
-            return Center(child: CircularProgressIndicator());
-          } else if (state is SearchMovieSuccess) {
-            final searchMovie = state.searchMovie.results;
-            int index = 0;
-            final searchS = searchMovie[index];
-            return SingleChildScrollView(
+      body:
+      // BlocBuilder<SearchMovieCubit, SearchMovieState>(
+      //   builder: (context, state) {
+      //     if (state is SearchMovieLoading) {
+      //       return Center(child: CircularProgressIndicator());
+      //     } else if (state is SearchMovieSuccess) {
+            // final searchMovie = state.searchMovie.results;
+            // int index = 0;
+            // final searchS = searchMovie[index];
+            //return
+      SingleChildScrollView(
               child: Column(
                 children: [
                   Stack(
@@ -120,17 +124,17 @@ class DetailsScreen extends StatelessWidget {
                         )
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
-            );
-          } else if (state is SearchMovieError) {
-            return Center(child: Text('No Internet'));
-          } else {
-            return Center(child: Text('data'));
-          }
-        },
-      ),
-    );
+            ));
+    //       } else if (state is SearchMovieError) {
+    //         return Center(child: Text('No Internet'));
+    //       } else {
+    //         return Center(child: Text('data'));
+    //       }
+    //      },
+    //   // ),
+    // );
   }
 }

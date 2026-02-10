@@ -16,9 +16,12 @@
 
 ## Screenshots 📱
 
-![Movies App Screenshot](assets/screenshot-1.png)
+![Movies App Screenshot](assets/Screenshot_1.png)
+![Movies App Screenshot](assets/Screenshot_2.png)
+![Movies App Screenshot](assets/Screenshot_3.png)
+![Movies App Screenshot](assets/Screenshot_4.png)
 
----
+---s
 
 ## Installation ⚙️
 
