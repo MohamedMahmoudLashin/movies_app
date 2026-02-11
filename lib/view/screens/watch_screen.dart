@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies/view/widgets/text_details.dart';
 
 class WatchScreen extends StatelessWidget {
@@ -7,7 +8,11 @@ class WatchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: Center(child: TextDetails(title: 'Hello'),)),
+      body: SafeArea(child: Center(child: Column(
+        children: [
+          SvgPicture.asset('assets/icons/Home.svg',)
+        ],
+      ))),
     );
   }
 }

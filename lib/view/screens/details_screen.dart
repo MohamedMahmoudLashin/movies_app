@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/core/app_color.dart';
 import 'package:movies/view/widgets/Custom_app_bar.dart';
+import 'package:movies/view/widgets/custom_card.dart';
 import 'package:movies/view/widgets/movie_name_title.dart';
 import 'package:movies/view/widgets/text_details.dart';
 import 'package:movies/view_model/search_movie/search_movie_cubit.dart';
@@ -109,7 +110,7 @@ class DetailsScreen extends StatelessWidget {
                           height: 400,
                           child: TabBarView(children: [
                             TextDetails(title: searchS.overview),
-                            TextDetails(title: searchS.overview),
+                            CustomCard(),
                             TextDetails(title: searchS.overview),
                           ]),
                         )
