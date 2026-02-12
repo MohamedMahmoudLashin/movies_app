@@ -16,7 +16,15 @@
 
 ## Screenshots 📱
 
-![Movies App Screenshot](assets/screenshots)
+![Movies App Screenshot](assets/screenshots/Screenshot_1.png)
+![Movies App Screenshot](assets/screenshots/Screenshot_2.png)
+![Movies App Screenshot](assets/screenshots/Screenshot_3.png)
+![Movies App Screenshot](assets/screenshots/Screenshot_4.png)
+![Movies App Screenshot](assets/screenshots/Screenshot_5.png)
+![Movies App Screenshot](assets/screenshots/Screenshot_6.png)
+![Movies App Screenshot](assets/screenshots/Screenshot_7.png)
+![Movies App Screenshot](assets/screenshots/Screenshot_8.png)
+![Movies App Screenshot](assets/screenshots/Screenshot_9.png)
 
 
 ---s
