@@ -4,7 +4,7 @@ import 'package:movies/core/app_color.dart';
 import 'package:movies/view/screens/details_screen.dart';
 import 'package:movies/view/widgets/Custom_app_bar.dart';
 import 'package:movies/view/widgets/custom_Navigator_bar.dart';
-import 'package:movies/view/widgets/custom_details_coulmn.dart';
+import 'package:movies/view/widgets/custom_search_details.dart';
 import 'package:movies/view/widgets/custom_text_form.dart';
 import 'package:movies/view_model/search_movie/search_movie_cubit.dart';
 
@@ -92,7 +92,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                   : "https://img.icons8.com/?size=100&id=6i8IfGyeoebS&format=png&color=000000",
                                               width: 120,
                                               height: 170,
-                                              fit: BoxFit.cover,
+                                              fit: BoxFit.fill,
                                             ),
                                           ),
                                           onTap: () {
@@ -113,7 +113,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       child: CustomDetailsCoulmn(
                                         movieName: searchS.title,
                                         movieRate: searchS.voteAverage,
-                                        movieType: searchS.title,
+                                        movieType: "Unknown",
                                         movieYear: searchS.releaseDate,
                                         movieTime: searchS.video.toString(),
                                       ),

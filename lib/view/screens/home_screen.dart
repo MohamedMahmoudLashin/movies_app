@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           BoxShadow(
                             color: AppColor.iconHint,
                             blurRadius: 40,
-                            spreadRadius: -14,
+                            spreadRadius: -20,
                           ),
                         ],
                       ),

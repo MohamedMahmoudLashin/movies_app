@@ -15,15 +15,21 @@ class MovieNameTitle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top:20,bottom: 20),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 165),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(movieName,softWrap: true,style: TextStyle(fontSize: 18,fontWeight:FontWeight.w600 ,color: AppColor.textWhite),),
-              ],
+            padding: const EdgeInsets.only(left: 160),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                movieName,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: AppColor.textWhite,
+                ),
+              ),
             ),
           ),
           SizedBox(height: 50,),
@@ -31,7 +37,7 @@ class MovieNameTitle extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset("assets/CalendarBlank.png",height: 20,),
-              Text("$movieYear",style: TextStyle(fontSize: 12,fontWeight:FontWeight.w500 ,color: AppColor.detail,letterSpacing: 0.12)),
+              Text(movieYear,style: TextStyle(fontSize: 12,fontWeight:FontWeight.w500 ,color: AppColor.detail,letterSpacing: 0.12)),
               SizedBox(
                   height: 20,
                   width: 30,

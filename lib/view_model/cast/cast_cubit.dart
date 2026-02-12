@@ -1,19 +1,19 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
-import 'package:movies/model/reviews/reviews_model.dart';
+import 'package:movies/model/cast/cast_model.dart';
 
-part 'reviews_state.dart';
+part 'cast_state.dart';
 
-class ReviewsCubit extends Cubit<ReviewsState> {
-  ReviewsCubit() : super(ReviewsInitial());
-  
-  Future<void>getReviewsMovie(int movieId)async{
-    emit(ReviewsMovieLoading());
+class CastCubit extends Cubit<CastState> {
+  CastCubit() : super(CastInitial());
+
+  Future<void> getCastMovie(int movieId)async{
+    emit(CastMovieLoading());
     try{
       var dio =Dio();
-      var rev = await dio.get(
-          'https://api.themoviedb.org/3/movie/$movieId/reviews?language=en-US&page=1',
+      var cas = await dio.get(
+          'https://api.themoviedb.org/3/movie/$movieId/credits?language=en-US',
           options: Options(
               headers: {
                 "Authorization":
@@ -22,10 +22,10 @@ class ReviewsCubit extends Cubit<ReviewsState> {
               }
           )
       );
-      final reviewsMovie = ReviewsModel.fromJson(rev.data);
-      emit(ReviewsMovieSuccess(reviewsMovie));
-    }catch (e){
-      emit(ReviewsMovieError(e.toString()));
+      final castMovie= CastModel.fromJson(cas.data);
+      emit(CastMovieSuccess(castMovie));
+    }catch(e){
+      emit(CastMovieError(e.toString()));
     }
 
   }

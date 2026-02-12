@@ -6,7 +6,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key, required this.title,required this.sufIcon,required this.angle, required this.toolTipMessage});
 
   final String title;
-  final Icon sufIcon;
+  final Widget sufIcon;
   final double angle;
   final String toolTipMessage;
   @override

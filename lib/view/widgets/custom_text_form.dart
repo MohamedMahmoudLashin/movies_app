@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/app_color.dart';
 
 class CustomTextForm extends StatelessWidget {
@@ -25,8 +26,8 @@ class CustomTextForm extends StatelessWidget {
             filled: true,
             fillColor: AppColor.textField,
             suffixIcon: Transform.rotate(
-              angle: 1.75,
-              child: IconButton(icon:Icon(Icons.search, color: AppColor.iconHint,size: 35,) ,onPressed:(){},),
+              angle: 1.6,
+              child: SvgPicture.asset("assets/icons/Search.svg",fit:BoxFit.scaleDown,),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(25),

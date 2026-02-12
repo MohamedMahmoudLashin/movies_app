@@ -1,34 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies/core/app_color.dart';
 import 'package:movies/view/widgets/Custom_app_bar.dart';
-import 'package:movies/view/widgets/custom_card.dart';
-import 'package:movies/view/widgets/movie_name_title.dart';
+import 'package:movies/view/widgets/review_tab.dart';
+import 'package:movies/view/widgets/custom_movie_details.dart';
 import 'package:movies/view/widgets/text_details.dart';
-import 'package:movies/view_model/search_movie/search_movie_cubit.dart';
+import 'package:movies/view_model/cast/cast_cubit.dart';
+import 'package:movies/view_model/reviews/reviews_cubit.dart';
 
-class DetailsScreen extends StatelessWidget {
+class DetailsScreen extends StatefulWidget {
   const DetailsScreen({super.key, this.movie});
   final dynamic movie;
 
   @override
+  State<DetailsScreen> createState() => _DetailsScreenState();
+}
+
+class _DetailsScreenState extends State<DetailsScreen> {
+  @override
+  void initState(){
+    super.initState();
+    context.read<ReviewsCubit>().getReviewsMovie(widget.movie.id);
+    context.read<CastCubit>().getCastMovie(widget.movie.id);
+  }
+  @override
   Widget build(BuildContext context) {
-    final searchS = movie;
+
+    final searchS = widget.movie;
+    final year = searchS.releaseDate != null && searchS.releaseDate.length >= 4
+        ? searchS.releaseDate.substring(0, 4)
+        : "Unknown";
+
+    final backUrl =searchS.backdropPath!= null ?
+    "https://image.tmdb.org/t/p/w500${searchS.backdropPath}"
+        :"https://image.tmdb.org/t/p/w500${searchS.posterPath}";
     return Scaffold(
       backgroundColor: AppColor.backGround,
       appBar: CustomAppBar(
         toolTipMessage: 'Add to Whistle',
         angle: 0,
         title: 'Details',
-        sufIcon: Icon(
-          Icons.library_add_check_outlined,
-          size: 30,
-          color: Colors.white,
-        ),
+        sufIcon: SvgPicture.asset(
+          "assets/icons/Save.svg",color: AppColor.textWhite,width: 25,),
       ),
       body:
       SingleChildScrollView(
-              child: Column(
+        child: Column(
                 children: [
                   Stack(
                     clipBehavior: Clip.none,
@@ -37,10 +55,10 @@ class DetailsScreen extends StatelessWidget {
                         borderRadius: BorderRadiusGeometry.vertical(
                           bottom: Radius.circular(25),),
                         child: Image.network(
-                          "https://image.tmdb.org/t/p/w500${searchS.posterPath}",
+                          backUrl,
                           width: double.infinity,
-                          height: 300,
-                          fit: BoxFit.fill,
+                          height: 250,
+                          fit: BoxFit.cover,
                         ),
                       ),
                       Positioned(
@@ -64,17 +82,20 @@ class DetailsScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: AppColor.contColor,
                             borderRadius: BorderRadius.circular(8),),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Icon(Icons.star_border_purple500_outlined,
-                                  color: AppColor.yellowStar,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 2.0,right: 4),
-                                child: Text(searchS.voteAverage.toString(),style: TextStyle(fontSize:12,fontWeight: FontWeight.w600,letterSpacing: .12,color: AppColor.yellowStar),),
-                              )
-                            ],
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 2),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                GestureDetector(
+                                    onTap: (){},
+                                    child: SvgPicture.asset("assets/icons/Star.svg")),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 2.0,right: 4),
+                                  child: Text(searchS.voteAverage.toStringAsFixed(1),style: TextStyle(fontSize:12,fontWeight: FontWeight.w600,letterSpacing: .12,color: AppColor.yellowStar),),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -83,7 +104,7 @@ class DetailsScreen extends StatelessWidget {
                   MovieNameTitle(
                     movieName: searchS.originalTitle,
                     movieTime: searchS.releaseDate,
-                    movieYear: searchS.releaseDate,
+                    movieYear: year,
                     movieType: searchS.voteAverage.toString(),
                   ),
                   DefaultTabController(
@@ -91,8 +112,8 @@ class DetailsScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         TabBar(
-                          labelPadding: EdgeInsets.symmetric(horizontal: 20),
-                            overlayColor: MaterialStateProperty.all(Colors.transparent),
+                            labelPadding: EdgeInsets.symmetric(horizontal: 25),
+                          padding: EdgeInsets.symmetric(horizontal: 15),
                           isScrollable: true,
                           dividerColor: AppColor.backGround,
                             unselectedLabelColor: AppColor.iconHint,
@@ -107,11 +128,100 @@ class DetailsScreen extends StatelessWidget {
                         ]),
                         SizedBox(
                           width: double.infinity,
-                          height: 400,
+                          height: 2500,
                           child: TabBarView(children: [
+                            /////////////////AboutMovie///////////////////////////
                             TextDetails(title: searchS.overview),
-                            CustomCard(),
-                            TextDetails(title: searchS.overview),
+                           ///////////////////////Reviews////////////////////////////
+                            BlocBuilder<ReviewsCubit, ReviewsState>(
+                              builder: (context, state) {
+                                if (state is ReviewsMovieLoading) {
+                                  return Center(
+                                    child: CircularProgressIndicator.adaptive(),
+                                  );
+                                }
+                                else if (state is ReviewsMovieSuccess) {
+                                  final reviewsMovie = state.reviewsMovie.results ?? [];
+                                  if (reviewsMovie.isEmpty) {
+                                    return TextDetails(title: "No reviews available.",);
+                                  }
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: reviewsMovie.length,
+                                    itemBuilder: (context, index) {
+                                      final review = reviewsMovie[index];
+                                      final authorName=review.authorDetails?.name;
+                                      final name = (authorName !=null && authorName.isNotEmpty)? authorName : "UnKnown";
+                                      final avatarPath = review.authorDetails?.avatarPath;
+                                      final String noAvatar ="https://static.vecteezy.com/system/resources/previews/019/879/186/non_2x/user-icon-on-transparent-background-free-png.png";
+                                      final imageUrl = avatarPath != null
+                                          ? "https://image.tmdb.org/t/p/w200$avatarPath"
+                                          : noAvatar;
+                                      final content = review.content ?? "";
+                                      final rate = (review.authorDetails?.rating ?? 0).toStringAsFixed(1);
+                                      return CustomCard(
+                                        name: name,
+                                        subTitle: content,
+                                        image: imageUrl,
+                                        rate: rate,
+                                      );
+                                    },
+                                  );
+                                }
+                                else if (state is ReviewsMovieError) {
+                                  return Center(
+                                    child: TextDetails(title: "Error: ${state.message}",),);
+                                }
+                                return TextDetails(title: "Oops");
+                              },
+                            ),
+                            ////////////////////////Cast////////////////////////
+                            BlocBuilder<CastCubit, CastState>(
+                                builder: (context, state) {
+                                  if(state is CastMovieLoading){
+                                    return Center(child: CircularProgressIndicator(),);
+                                  }else if(state is CastMovieSuccess){
+                                    final castMovie = state.castMovie.cast??[];
+                                    return Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: GridView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                          itemCount: castMovie.length,
+                                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 2,
+                                          mainAxisSpacing:0 ,
+                                          crossAxisSpacing: 11,
+                                          childAspectRatio:1.1),
+                                          itemBuilder:(context,index){
+                                          final cast = castMovie[index];
+                                          final castAvatar=cast.profilePath;
+                                          final castName=cast.name;
+                                          final name = castName!=null&&castName.isNotEmpty?castName:"UnKnown";
+                                          final String noAvatar ="https://static.vecteezy.com/system/resources/previews/019/879/186/non_2x/user-icon-on-transparent-background-free-png.png";
+                                          final castUrl = castAvatar!=null?
+                                          "https://image.tmdb.org/t/p/w200$castAvatar"
+                                          :noAvatar;
+                                          return Column(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundImage: NetworkImage(castUrl),
+                                                radius: 50,
+                                              ),
+                                              TextDetails(title:name)
+                                            ],
+                                          );
+                                          }
+                                      ),
+                                    );
+                                  }else if (state is CastMovieError){
+                                    return TextDetails(title: "Error ${state.message}");
+                                  }else {
+                                    return TextDetails(title: "Oops");
+                                  }
+                                    },
+                               ),
                           ]),
                         )
                       ],

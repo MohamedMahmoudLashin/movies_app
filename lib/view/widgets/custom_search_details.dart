@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies/core/app_color.dart';
 
 class CustomDetailsCoulmn extends StatelessWidget {
@@ -24,23 +25,21 @@ class CustomDetailsCoulmn extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-            Icon(Icons.star_border_purple500_outlined,color: AppColor.yellowStar,size: 20,),
+            SvgPicture.asset("assets/icons/Star.svg"),
             SizedBox(width: 4,),
             Text(movieRate.toString(),style: TextStyle(fontSize: 12 ,fontWeight:FontWeight.w400 ,color: AppColor.textWhite ),),
           ],),
           Row(children: [
-            Icon(Icons.call_to_action_outlined,color: AppColor.textWhite,size: 15,),
+            SvgPicture.asset("assets/icons/Ticket.svg",color: AppColor.textWhite,),
             SizedBox(width: 8,),
             Expanded(child: Text(movieType.toString(),softWrap:true,style: TextStyle(fontSize: 12 ,fontWeight:FontWeight.w400 ,color: AppColor.textWhite, ),)),
           ],),
           Row(children: [
-            Icon(Icons.calendar_today_outlined,color: AppColor.textWhite,size: 15,),
-            SizedBox(width: 8,),
-            Text(movieYear,style: TextStyle(fontSize: 12 ,fontWeight:FontWeight.w400 ,color: AppColor.textWhite ),),
+            SvgPicture.asset("assets/icons/CalendarBlank.svg",color: AppColor.textWhite,),            SizedBox(width: 8,),
+            Text("${(movieYear!=null&&movieYear.length >=4) ? movieYear.substring(0,4):"Unknown"}",style: TextStyle(fontSize: 12 ,fontWeight:FontWeight.w400 ,color: AppColor.textWhite ),),
           ],),
           Row(children: [
-            Icon(Icons.watch_later_outlined,color: AppColor.textWhite,size: 15,),
-            SizedBox(width: 8,),
+            SvgPicture.asset("assets/icons/Clock.svg",color: AppColor.textWhite,),            SizedBox(width: 8,),
             Text('$movieRate minutes',style: TextStyle(fontSize: 12 ,fontWeight:FontWeight.w400 ,color: AppColor.textWhite ),),
           ],)
         ],
