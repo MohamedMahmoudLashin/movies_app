@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies/core/app_color.dart';
 import 'package:movies/view/screens/details_screen.dart';
 import 'package:movies/view/widgets/Custom_app_bar.dart';
-import 'package:movies/view/widgets/custom_Navigator_bar.dart';
 import 'package:movies/view/widgets/custom_search_details.dart';
 import 'package:movies/view/widgets/custom_text_form.dart';
 import 'package:movies/view_model/search_movie/search_movie_cubit.dart';
@@ -164,7 +163,6 @@ class _SearchScreenState extends State<SearchScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomNavigatorBar(),
     );
   }
 }

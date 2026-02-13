@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movies/view/screens/home_screen.dart';
+import 'package:movies/view/screens/heart_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/view_model/cast/cast_cubit.dart';
 import 'package:movies/view_model/nowplaying/now_playing_cubit.dart';
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create:(context)=>CastCubit())
       ],
-      child: MaterialApp(title: 'Movies', home: HomeScreen()),
+      child: MaterialApp(title: 'Movies', home: HeartScreen()),
     );
   }
 }

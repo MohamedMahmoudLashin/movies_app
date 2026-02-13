@@ -1,6 +1,6 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:movies/core/app_color.dart';
+
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key, required this.title, this.sufIcon,required this.angle, required this.toolTipMessage});
@@ -10,7 +10,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double angle;
   final String toolTipMessage;
   @override
+
   Widget build(BuildContext context) {
+
+
     return AppBar(
       backgroundColor: AppColor.backGround,
       centerTitle: true,
@@ -18,9 +21,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leadingWidth: 90,
       leading: IconButton(
         onPressed: () {
-          Navigator.of(
-            context,
-          ).pop();
+          if (Navigator.canPop(context)) {
+            Navigator.of(context).pop();
+          }
         },
         icon: Icon(Icons.arrow_back_ios, color: AppColor.appBarColor),
       ),

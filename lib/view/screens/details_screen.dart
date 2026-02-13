@@ -57,77 +57,77 @@ class _DetailsScreenState extends State<DetailsScreen> {
           ),
         ),),
       body:
-      SingleChildScrollView(
-        child: Column(
-                children: [
-                  Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadiusGeometry.vertical(
-                          bottom: Radius.circular(25),),
+      Column(
+              children: [
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadiusGeometry.vertical(
+                        bottom: Radius.circular(25),),
+                      child: Image.network(
+                        backUrl,
+                        width: double.infinity,
+                        height: 250,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      left: 30,
+                      bottom: -80,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
                         child: Image.network(
-                          backUrl,
-                          width: double.infinity,
-                          height: 250,
+                          "https://image.tmdb.org/t/p/w500${searchS.posterPath}",
+                          height: 170,
+                          width: 120,
                           fit: BoxFit.cover,
                         ),
                       ),
-                      Positioned(
-                        left: 30,
-                        bottom: -80,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.network(
-                            "https://image.tmdb.org/t/p/w500${searchS.posterPath}",
-                            height: 170,
-                            width: 120,
-                            fit: BoxFit.cover,
+                    ),
+                    Positioned(
+                      right: 20,
+                      bottom: 15,
+                      child: Container(
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: AppColor.contColor,
+                          borderRadius: BorderRadius.circular(8),),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 2),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              GestureDetector(
+                                  onTap: (){
+                                    showModalBottomSheet(context: context,
+                                        isScrollControlled: true,
+                                        backgroundColor: Colors.transparent,
+                                        builder: (context){
+                                      return BottomRatingBar();
+                                    });
+                                  },
+                                  child: SvgPicture.asset("assets/icons/Star.svg")),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 2.0,right: 4),
+                                child: Text(searchS.voteAverage.toStringAsFixed(1),style: TextStyle(fontSize:12,fontWeight: FontWeight.w600,letterSpacing: .12,color: AppColor.yellowStar),),
+                              )
+                            ],
                           ),
                         ),
                       ),
-                      Positioned(
-                        right: 20,
-                        bottom: 15,
-                        child: Container(
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: AppColor.contColor,
-                            borderRadius: BorderRadius.circular(8),),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 2),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                GestureDetector(
-                                    onTap: (){
-                                      showModalBottomSheet(context: context,
-                                          isScrollControlled: true,
-                                          backgroundColor: Colors.transparent,
-                                          builder: (context){
-                                        return BottomRatingBar();
-                                      });
-                                    },
-                                    child: SvgPicture.asset("assets/icons/Star.svg")),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 2.0,right: 4),
-                                  child: Text(searchS.voteAverage.toStringAsFixed(1),style: TextStyle(fontSize:12,fontWeight: FontWeight.w600,letterSpacing: .12,color: AppColor.yellowStar),),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  MovieNameTitle(
-                    movieName: searchS.originalTitle,
-                    movieTime: searchS.releaseDate,
-                    movieYear: year,
-                    movieType: searchS.voteAverage.toString(),
-                  ),
-                  DefaultTabController(
-                    length: 3,
+                    ),
+                  ],
+                ),
+                MovieNameTitle(
+                  movieName: searchS.originalTitle,
+                  movieTime: searchS.releaseDate,
+                  movieYear: year,
+                  movieType: searchS.voteAverage.toString(),
+                ),
+                DefaultTabController(
+                  length: 3,
+                  child: Expanded(
                     child: Column(
                       children: [
                         TabBar(
@@ -145,9 +145,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           Tab(text: 'Reviews',),
                           Tab(text: 'Cast',)
                         ]),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 2500,
+                        Expanded(
                           child: TabBarView(children: [
                             /////////////////AboutMovie///////////////////////////
                             TextDetails(title: searchS.overview),
@@ -166,7 +164,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   }
                                   return ListView.builder(
                                     shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
+                                    //physics: NeverScrollableScrollPhysics(),
                                     itemCount: reviewsMovie.length,
                                     itemBuilder: (context, index) {
                                       final review = reviewsMovie[index];
@@ -206,7 +204,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       padding: const EdgeInsets.all(15),
                                       child: GridView.builder(
                                         shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
+                                        //physics: NeverScrollableScrollPhysics(),
                                           itemCount: castMovie.length,
                                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 2,
@@ -246,8 +244,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
 
     );
