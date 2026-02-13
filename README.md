@@ -25,6 +25,7 @@
 ![Movies App Screenshot](assets/screenshots/Screenshot_7.png)
 ![Movies App Screenshot](assets/screenshots/Screenshot_8.png)
 ![Movies App Screenshot](assets/screenshots/Screenshot_9.png)
+![Movies App Screenshot](assets/screenshots/Screenshot_10.png)
 
 
 ---s

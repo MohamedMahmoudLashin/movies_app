@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies/core/app_color.dart';
 import 'package:movies/view/screens/details_screen.dart';
 import 'package:movies/view/widgets/Custom_app_bar.dart';
@@ -55,13 +56,21 @@ class _SearchScreenState extends State<SearchScreen> {
                     final searchMovie = state.searchMovie.results;
                     if (searchMovie.isEmpty) {
                       return Center(
-                        child: Text(
-                          'assets/search.png',
-                          style: TextStyle(
-                            fontSize: 30,
-                            color: AppColor.textWhite,
-                            fontWeight: FontWeight.w800,
-                          ),
+                        child: Column(
+                          children: [
+                            SvgPicture.asset("assets/icons/Search.svg"),
+                            SizedBox(height: 15,),
+                            Text(
+                              'we are sorry, we can \n '
+                                  'not find the movie :(\n '
+                                  'Find your movie by Type title, categories, years, etc ',
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: AppColor.textWhite,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ],
                         ),
                       );
                     } else {

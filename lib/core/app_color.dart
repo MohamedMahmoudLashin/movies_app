@@ -11,5 +11,6 @@ class AppColor {
  static const contColor= Color(0x99283652);
  static const blue= Color(0xff0296E5);
  static const selectInd= Color(0xff3A3F47);
+ static const purple= Color(0xff4E4B66);
 
 }

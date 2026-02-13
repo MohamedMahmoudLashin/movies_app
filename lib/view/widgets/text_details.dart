@@ -12,6 +12,7 @@ class TextDetails extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       child: Text(
         title,
+        maxLines: 1,
         softWrap: true,
         style: TextStyle(
           height: 1.5,

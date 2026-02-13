@@ -1,8 +1,10 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies/core/app_color.dart';
 import 'package:movies/view/widgets/Custom_app_bar.dart';
+import 'package:movies/view/widgets/bottom_rating_bar.dart';
 import 'package:movies/view/widgets/review_tab.dart';
 import 'package:movies/view/widgets/custom_movie_details.dart';
 import 'package:movies/view/widgets/text_details.dart';
@@ -18,6 +20,7 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
+  bool isWatch =false;
   @override
   void initState(){
     super.initState();
@@ -41,9 +44,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
         toolTipMessage: 'Add to Whistle',
         angle: 0,
         title: 'Details',
-        sufIcon: SvgPicture.asset(
-          "assets/icons/Save.svg",color: AppColor.textWhite,width: 25,),
-      ),
+        sufIcon: GestureDetector(
+          onTap: (){
+            setState(() {
+              isWatch = !isWatch;
+            });
+          },
+          child: SvgPicture.asset(
+            isWatch ? "assets/icons/top-bar-right.svg"
+                :"assets/icons/Save.svg",
+
+          ),
+        ),),
       body:
       SingleChildScrollView(
         child: Column(
@@ -88,7 +100,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 GestureDetector(
-                                    onTap: (){},
+                                    onTap: (){
+                                      showModalBottomSheet(context: context,
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.transparent,
+                                          builder: (context){
+                                        return BottomRatingBar();
+                                      });
+                                    },
                                     child: SvgPicture.asset("assets/icons/Star.svg")),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 2.0,right: 4),
@@ -229,6 +248,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ),
                 ],
               ),
-            ));
+            ),
+
+    );
   }
 }

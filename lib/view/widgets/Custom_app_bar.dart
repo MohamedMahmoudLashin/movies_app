@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:movies/core/app_color.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key, required this.title,required this.sufIcon,required this.angle, required this.toolTipMessage});
+  const CustomAppBar({super.key, required this.title, this.sufIcon,required this.angle, required this.toolTipMessage});
 
   final String title;
-  final Widget sufIcon;
+  final Widget? sufIcon;
   final double angle;
   final String toolTipMessage;
   @override
