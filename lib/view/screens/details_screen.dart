@@ -9,10 +9,12 @@ import 'package:movies/view/widgets/review_tab.dart';
 import 'package:movies/view/widgets/custom_movie_details.dart';
 import 'package:movies/view/widgets/text_details.dart';
 import 'package:movies/view_model/cast/cast_cubit.dart';
+import 'package:movies/view_model/details/details_cubit.dart';
 import 'package:movies/view_model/reviews/reviews_cubit.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({super.key, this.movie});
+
   final dynamic movie;
 
   @override
@@ -21,12 +23,14 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   bool isWatch = false;
+
   @override
   void initState() {
     super.initState();
-    isWatch =watchListMovies.any((movie)=>movie.id==widget.movie.id);
+    isWatch = watchListMovies.any((movie) => movie.id == widget.movie.id);
     context.read<ReviewsCubit>().getReviewsMovie(widget.movie.id);
     context.read<CastCubit>().getCastMovie(widget.movie.id);
+    context.read<DetailsCubit>().getDetailsMovie(widget.movie.id);
   }
 
   @override
@@ -48,9 +52,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
         sufIcon: GestureDetector(
           onTap: () {
             setState(() {
-              if (isWatch){
+              if (isWatch) {
                 watchListMovies.remove(widget.movie);
-              }else{
+              } else {
                 watchListMovies.add(widget.movie);
               }
               ScaffoldMessenger.of(context).showSnackBar(
@@ -100,7 +104,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   child: Image.network(
                     searchS.posterPath != null
                         ? "https://image.tmdb.org/t/p/w500${searchS.posterPath}"
-                        : "https://image.tmdb.org/t/p/w500${searchS.backdropPath}",
+                        : "https://image.tmdb.org/t/p/w500${searchS
+                        .backdropPath}",
                     height: 170,
                     width: 120,
                     fit: BoxFit.cover,
@@ -156,11 +161,23 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ),
             ],
           ),
-          MovieNameTitle(
-            movieName: searchS.originalTitle,
-            movieTime: searchS.releaseDate,
-            movieYear: year,
-            movieType: searchS.voteAverage.toString(),
+          BlocBuilder<DetailsCubit, DetailsState>(
+            builder: (context, state) {
+              if (state is DetailsMovieSuccess){
+                final detailsMovie = state.detailsMovie.genres??[];
+                final time = state.detailsMovie.runtime!=null?"${state.detailsMovie.runtime}" : "0";
+                final genres = detailsMovie.isNotEmpty ? detailsMovie[0] : null;
+                return MovieNameTitle(
+                  movieName: searchS.originalTitle,
+                  movieTime: time,
+                  movieYear: searchS.releaseDate,
+                  movieType: genres?.name??"",
+                );
+              }else if(state is DetailsMovieError){
+                return Center(child: TextDetails(title: "Error ${state.message}"),);
+              }
+              return Text("data");
+            },
           ),
           DefaultTabController(
             length: 3,
@@ -211,8 +228,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   final review = reviewsMovie[index];
                                   final authorName = review.authorDetails?.name;
                                   final name =
-                                      (authorName != null &&
-                                          authorName.isNotEmpty)
+                                  (authorName != null &&
+                                      authorName.isNotEmpty)
                                       ? authorName
                                       : "UnKnown";
                                   final avatarPath =
@@ -224,8 +241,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       : noAvatar;
                                   final content = review.content ?? "";
                                   final rate =
-                                      (review.authorDetails?.rating ?? 0)
-                                          .toStringAsFixed(1);
+                                  (review.authorDetails?.rating ?? 0)
+                                      .toStringAsFixed(1);
                                   return CustomCard(
                                     name: name,
                                     subTitle: content,
@@ -258,18 +275,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   //physics: NeverScrollableScrollPhysics(),
                                   itemCount: castMovie.length,
                                   gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        mainAxisSpacing: 4,
-                                        crossAxisSpacing: 11,
-                                        childAspectRatio: 1,
-                                      ),
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 4,
+                                    crossAxisSpacing: 11,
+                                    childAspectRatio: 1,
+                                  ),
                                   itemBuilder: (context, index) {
                                     final cast = castMovie[index];
                                     final castAvatar = cast.profilePath;
                                     final castName = cast.name;
                                     final name =
-                                        castName != null && castName.isNotEmpty
+                                    castName != null && castName.isNotEmpty
                                         ? castName
                                         : "UnKnown";
                                     final String noAvatar =

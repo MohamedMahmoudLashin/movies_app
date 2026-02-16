@@ -79,7 +79,7 @@ class CustomDetailsCoulmn extends StatelessWidget {
               ),
               SizedBox(width: 8),
               Text(
-                "${(movieYear != null && movieYear.length >= 4) ? movieYear.substring(0, 4) : "Unknown"}",
+                (movieYear != null && movieYear.length >= 4) ? movieYear.substring(0, 4) : "Unknown",
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -96,7 +96,7 @@ class CustomDetailsCoulmn extends StatelessWidget {
               ),
               SizedBox(width: 8),
               Text(
-                '$movieRate minutes',
+                '$movieTime minutes',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,

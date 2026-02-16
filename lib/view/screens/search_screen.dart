@@ -23,7 +23,6 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
 
   @override
@@ -125,14 +124,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                     SizedBox(width: 10),
                                     Expanded(
                                       child: BlocProvider(
-  create: (context) => DetailsCubit()..getDetailsMovie(searchS.id),
-  child: BlocBuilder<DetailsCubit, DetailsState>(
+                                        create: (context) => DetailsCubit()..getDetailsMovie(searchS.id), 
+                                        child: BlocBuilder<DetailsCubit, DetailsState>(
                                                 builder: (context, state) {
-                                                  if (state is DetailsMovieLoading){
-                                                    return Center(child: CircularProgressIndicator(),);
-                                                  }else if (state is DetailsMovieSuccess){
+                                                   if (state is DetailsMovieSuccess){
                                                     final detailsMovie = state.detailsMovie.genres??[];
-                                                    final time = state.detailsMovie.runtime!=null?"${state.detailsMovie.runtime} min" : "Unknown";
+                                                    final time = state.detailsMovie.runtime!=null?"${state.detailsMovie.runtime}" : "0";
                                                     final genres = detailsMovie.isNotEmpty ? detailsMovie[0] : null;
                                                     return CustomDetailsCoulmn(
                                                       movieName: searchS.title,
@@ -144,11 +141,11 @@ class _SearchScreenState extends State<SearchScreen> {
                                                   }else if (state is DetailsMovieError){
                                                     return TextDetails(title: "Error ${state.message}");
                                                   }else{
-                                                    return Center(child: Text("Oops"),);
+                                                    return Center(child:const Text("Oops"),);
                                                   }
                                                              },
                                                     ),
-)
+                                      )
                                     ),
                                   ],
                                 ),
@@ -167,7 +164,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         children: [
                           SvgPicture.asset("assets/icons/no-results_1.svg"),
                           SizedBox(height: 20),
-                          Text(
+                          const Text(
                             'Find your movie by Type title ',
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -176,7 +173,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               color: AppColor.iconHint,
                               letterSpacing: 0.12,
                             ),),SizedBox(height: 5,),
-                          Text(
+                          const Text(
                             'categories, years, etc ',
                             textAlign: TextAlign.center,
                             style: TextStyle(

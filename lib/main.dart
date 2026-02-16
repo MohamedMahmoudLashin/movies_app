@@ -41,7 +41,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context)=>DetailsCubit())
       ],
-      child: MaterialApp(title: 'Movies', home: HeartScreen()),
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Movies', home: HeartScreen()),
     );
   }
 }
