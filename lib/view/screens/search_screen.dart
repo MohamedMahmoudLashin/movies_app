@@ -6,6 +6,8 @@ import 'package:movies/view/screens/details_screen.dart';
 import 'package:movies/view/widgets/Custom_app_bar.dart';
 import 'package:movies/view/widgets/custom_search_details.dart';
 import 'package:movies/view/widgets/custom_text_form.dart';
+import 'package:movies/view/widgets/text_details.dart';
+import 'package:movies/view_model/details/details_cubit.dart';
 import 'package:movies/view_model/search_movie/search_movie_cubit.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -17,6 +19,12 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +50,7 @@ class _SearchScreenState extends State<SearchScreen> {
               onSubmit: (value) {
                 if (value.isNotEmpty) {
                   context.read<SearchMovieCubit>().getSearchMovies(value);
-                }
+                  }
               },
             ),
             SizedBox(height: 20),
@@ -56,18 +64,13 @@ class _SearchScreenState extends State<SearchScreen> {
                     if (searchMovie.isEmpty) {
                       return Center(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SvgPicture.asset("assets/icons/Search.svg"),
+                            SvgPicture.asset("assets/icons/no-results_1.svg"),
                             SizedBox(height: 15,),
-                            Text(
-                              'we are sorry, we can \n '
-                                  'not find the movie :(\n '
-                                  'Find your movie by Type title, categories, years, etc ',
-                              style: TextStyle(
-                                fontSize: 30,
-                                color: AppColor.textWhite,
-                                fontWeight: FontWeight.w800,
-                              ),
+                            const Text('we are sorry, we can', style: TextStyle(fontSize: 16, color: AppColor.textWhite, fontWeight: FontWeight.w400, letterSpacing: .12)),
+                            const Text('not find the movie', style: TextStyle(fontSize: 16, color: AppColor.textWhite, fontWeight: FontWeight.w400, letterSpacing: .12))
+                            ,const Text('Find your movie by Type title categories, years, etc ', style: TextStyle(fontSize: 16, color: AppColor.textWhite, fontWeight: FontWeight.w400, letterSpacing: .12),
                             ),
                           ],
                         ),
@@ -77,6 +80,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         itemCount: searchMovie.length,
                         itemBuilder: (context, index) {
                           final searchS = searchMovie[index];
+                          final movieGenres = searchS.genreIds !=null&& searchS.genreIds.isNotEmpty
+                          ?searchS.genreIds![0].toString()
+                              :"";
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: SizedBox(
@@ -97,10 +103,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                             child: Image.network(
                                               searchS.posterPath != null
                                                   ? "https://image.tmdb.org/t/p/w500${searchS.posterPath}"
-                                                  : "https://img.icons8.com/?size=100&id=6i8IfGyeoebS&format=png&color=000000",
+                                              :searchS.backdropPath !=null
+                                                  ?"https://image.tmdb.org/t/p/w500${searchS.backdropPath}"
+                                              :"https://img.icons8.com/?size=100&id=6i8IfGyeoebS&format=png&color=000000",
                                               width: 120,
                                               height: 170,
-                                              fit: BoxFit.fill,
+                                              fit: BoxFit.cover,
                                             ),
                                           ),
                                           onTap: () {
@@ -115,16 +123,32 @@ class _SearchScreenState extends State<SearchScreen> {
                                       ],
                                     ),
                                     SizedBox(width: 10),
-                                    SizedBox(
-                                      height: 170,
-                                      width: 200,
-                                      child: CustomDetailsCoulmn(
-                                        movieName: searchS.title,
-                                        movieRate: searchS.voteAverage,
-                                        movieType: "Unknown",
-                                        movieYear: searchS.releaseDate,
-                                        movieTime: searchS.video.toString(),
-                                      ),
+                                    Expanded(
+                                      child: BlocProvider(
+  create: (context) => DetailsCubit()..getDetailsMovie(searchS.id),
+  child: BlocBuilder<DetailsCubit, DetailsState>(
+                                                builder: (context, state) {
+                                                  if (state is DetailsMovieLoading){
+                                                    return Center(child: CircularProgressIndicator(),);
+                                                  }else if (state is DetailsMovieSuccess){
+                                                    final detailsMovie = state.detailsMovie.genres??[];
+                                                    final time = state.detailsMovie.runtime!=null?"${state.detailsMovie.runtime} min" : "Unknown";
+                                                    final genres = detailsMovie.isNotEmpty ? detailsMovie[0] : null;
+                                                    return CustomDetailsCoulmn(
+                                                      movieName: searchS.title,
+                                                      movieRate: searchS.voteAverage,
+                                                      movieType:genres?.name??"UnKnown",
+                                                      movieYear: searchS.releaseDate,
+                                                      movieTime: time,
+                                                    );
+                                                  }else if (state is DetailsMovieError){
+                                                    return TextDetails(title: "Error ${state.message}");
+                                                  }else{
+                                                    return Center(child: Text("Oops"),);
+                                                  }
+                                                             },
+                                                    ),
+)
                                     ),
                                   ],
                                 ),
@@ -141,14 +165,23 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset("assets/search.png"),
+                          SvgPicture.asset("assets/icons/no-results_1.svg"),
                           SizedBox(height: 20),
                           Text(
-                            'Find your movie by Type title,\n categories, years, etc ',
+                            'Find your movie by Type title ',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.iconHint,
+                              letterSpacing: 0.12,
+                            ),),SizedBox(height: 5,),
+                          Text(
+                            'categories, years, etc ',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
                               color: AppColor.iconHint,
                               letterSpacing: 0.12,
                             ),
