@@ -9,10 +9,10 @@ class TextDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 40),
       child: Text(
         title,
-        maxLines: 1,
+        maxLines: 10,
         softWrap: true,
         style: TextStyle(
           height: 1.5,

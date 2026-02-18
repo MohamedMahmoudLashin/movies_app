@@ -28,7 +28,7 @@ class _HeartScreenState extends State<HeartScreen> {
       body: screens[selectedIndex],
       bottomNavigationBar: showBottomNav
           ? Container(
-        height: 70,
+        height: 90,
         decoration: BoxDecoration(
           border: Border(top:BorderSide(color: AppColor.blue,width: 2), ),
         ),
