@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies/core/app_color.dart';
+import 'package:movies/utilies/shared_preferences.dart';
 import 'package:movies/view/screens/watchlist_data.dart';
 import 'package:movies/view/widgets/Custom_app_bar.dart';
 import 'package:movies/view/widgets/bottom_rating_bar.dart';
@@ -27,7 +28,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   void initState() {
     super.initState();
-    isWatch = watchListMovies.any((movie) => movie.id == widget.movie.id);
+    isWatch=MySharedPreference.getData(key: "watch_${widget.movie.id}")??false;
+    // isWatch = watchListMovies.any((movie) => movie.id == widget.movie.id);
     context.read<ReviewsCubit>().getReviewsMovie(widget.movie.id);
     context.read<CastCubit>().getCastMovie(widget.movie.id);
     context.read<DetailsCubit>().getDetailsMovie(widget.movie.id);
@@ -50,28 +52,57 @@ class _DetailsScreenState extends State<DetailsScreen> {
         angle: 0,
         title: 'Details',
         sufIcon: GestureDetector(
-          onTap: () {
-            setState(() {
-              if (isWatch) {
-                watchListMovies.remove(widget.movie);
-              } else {
-                watchListMovies.add(widget.movie);
-              }
+          onTap: ()async {
+            final key = "watch_${widget.movie.id}";
+            if(isWatch){
+              ///if is saved remove it
+              await MySharedPreference.removeData(key: key);
+              setState(() {
+                isWatch =false;
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: AppColor.iconHint,
+                      content: Center(
+                        child: TextDetails(title: "Removed From Watch List"),),
+                    duration: Duration(milliseconds: 450),));
+              // setState(() {
+              //   if (isWatch) {
+              //     //watchListMovies.remove(widget.movie);
+              //   } else {
+              //     watchListMovies.add(widget.movie);
+              //   }
+              //   ScaffoldMessenger.of(context).showSnackBar(
+              //     SnackBar(
+              //       backgroundColor: AppColor.iconHint,
+              //       content: Center(
+              //         child: TextDetails(
+              //           title: isWatch
+              //               ? "Removed From Watch List"
+              //               : "Added To Watch List!",
+              //         ),
+              //       ),
+              //       duration: Duration(milliseconds:450),
+              //     ),
+              //   );
+              //   isWatch = !isWatch;
+              // });
+            }else{
+              ///if is not saved add it
+              await MySharedPreference.putData(key: key, value: true);
+              setState(() {
+                isWatch=true;
+              });
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: AppColor.iconHint,
                   content: Center(
-                    child: TextDetails(
-                      title: isWatch
-                          ? "Removed From Watch List"
-                          : "Added To Watch List!",
-                    ),
+                    child: TextDetails(title: "Added To Watch List!"),
                   ),
-                  duration: Duration(seconds: 1),
+                  duration: Duration(milliseconds: 450),
                 ),
               );
-              isWatch = !isWatch;
-            });
+            }
           },
           child: SvgPicture.asset(
             isWatch

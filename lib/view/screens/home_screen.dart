@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movies/core/app_color.dart';
 import 'package:movies/view/screens/details_screen.dart';
 import 'package:movies/view/screens/search_screen.dart';
+import 'package:movies/view/screens/watchlist_data.dart';
 import 'package:movies/view/widgets/custom_gridview.dart';
 import 'package:movies/view/widgets/custom_text_form.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -144,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             return Center(child: CircularProgressIndicator(),);
                                           }else if (state is NowPlayingSuccess){
                                             final nowPlayingMovie = state.nowPlayingMovie.results??[];
-                                            return CustomGridviewBuilder(
+                                            allMovies = nowPlayingMovie;                                            return CustomGridviewBuilder(
                                               itemCount: nowPlayingMovie.length,
                                               itemBuilder: (context, i) {
                                                 final nowPlay = nowPlayingMovie[i];
@@ -180,10 +181,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                               is UpcomingMovieSuccess) {
                                             final upComingMovie =
                                                 state.upComingMovie.results;
+
                                             return CustomGridviewBuilder(
                                               itemCount: upComingMovie.length,
                                               itemBuilder: (context, i) {
                                                 final upComing = upComingMovie[i];
+                                                allMovies = upComingMovie;
                                                 return SizedGestureClip(
                                                   onTap: () {
                                                     Navigator.of(context).push(
@@ -216,6 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         itemCount: topRatedMovie.length,
                                         itemBuilder: (context, i) {
                                           final topRate = topRatedMovie[i];
+                                          allMovies = topRatedMovie;
                                           return SizedGestureClip(
                                             onTap: () {
                                               Navigator.of(context).push(
@@ -237,6 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   return Center(child: CircularProgressIndicator(),);
                                                 }else if (state is PopularMovieSuccess){
                                                   final popularMovie = state.popularMovie.results;
+                                                  allMovies = popularMovie;
                                                   return CustomGridviewBuilder(
                                                     itemCount: topRatedMovie.length,
                                                     itemBuilder: (context, i) {

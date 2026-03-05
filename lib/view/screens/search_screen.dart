@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies/core/app_color.dart';
 import 'package:movies/view/screens/details_screen.dart';
+import 'package:movies/view/screens/watchlist_data.dart';
 import 'package:movies/view/widgets/Custom_app_bar.dart';
 import 'package:movies/view/widgets/custom_search_details.dart';
 import 'package:movies/view/widgets/custom_text_form.dart';
@@ -60,6 +61,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     return Center(child: CircularProgressIndicator());
                   } else if (state is SearchMovieSuccess) {
                     final searchMovie = state.searchMovie.results;
+                    allMovies = searchMovie;
                     if (searchMovie.isEmpty) {
                       return Center(
                         child: Column(
@@ -69,7 +71,8 @@ class _SearchScreenState extends State<SearchScreen> {
                             SizedBox(height: 15,),
                             const Text('we are sorry, we can', style: TextStyle(fontSize: 16, color: AppColor.textWhite, fontWeight: FontWeight.w400, letterSpacing: .12)),
                             const Text('not find the movie', style: TextStyle(fontSize: 16, color: AppColor.textWhite, fontWeight: FontWeight.w400, letterSpacing: .12))
-                            ,const Text('Find your movie by Type title categories, years, etc ', style: TextStyle(fontSize: 16, color: AppColor.textWhite, fontWeight: FontWeight.w400, letterSpacing: .12),
+                            ,const Text('Find your movie by Type title ', style: TextStyle(fontSize: 16, color: AppColor.textWhite, fontWeight: FontWeight.w400, letterSpacing: .12),)
+                            ,const Text(' categories, years, etc ', style: TextStyle(fontSize: 16, color: AppColor.textWhite, fontWeight: FontWeight.w400, letterSpacing: .12),
                             ),
                           ],
                         ),

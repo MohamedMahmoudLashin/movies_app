@@ -1,3 +1,6 @@
 import 'package:movies/view/screens/details_screen.dart';
 
-List<dynamic> watchListMovies = [];
+import '../../utilies/shared_preferences.dart';
+
+//List<dynamic> watchListMovies = [];
+List allMovies = [];

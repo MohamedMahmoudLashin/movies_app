@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies/utilies/shared_preferences.dart';
 import 'package:movies/view/screens/heart_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/view_model/cast/cast_cubit.dart';
@@ -10,7 +11,9 @@ import 'package:movies/view_model/toprated/top_rated_cubit.dart';
 import 'package:movies/view_model/upcoming/upcoming_cubit.dart';
 import 'view_model/search_movie/search_movie_cubit.dart';
 
-void main() {
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MySharedPreference.init();
   runApp(const MyApp());
 }
 

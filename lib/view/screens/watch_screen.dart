@@ -4,6 +4,7 @@ import 'package:movies/core/app_color.dart';
 import 'package:movies/view/screens/details_screen.dart';
 import 'package:movies/view/screens/watchlist_data.dart';
 import 'package:movies/view/widgets/Custom_app_bar.dart';
+import '../../utilies/shared_preferences.dart';
 import '../widgets/custom_search_details.dart';
 
 class WatchScreen extends StatefulWidget {
@@ -14,8 +15,23 @@ class WatchScreen extends StatefulWidget {
 }
 
 class _WatchScreenState extends State<WatchScreen> {
+  List watchListMovies = [];
   bool isWatch =false;
   double rating = 5;
+
+  @override
+  void initState() {
+    loadWatchList();
+    super.initState();
+  }
+  void loadWatchList() {
+    watchListMovies = allMovies.where((movie) {
+      final isSaved =
+          MySharedPreference.getData(key: "watch_${movie.id}") ?? false;
+      return isSaved;
+    }).toList();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
